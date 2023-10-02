@@ -1,0 +1,184 @@
+CONTENT MANAGEMENT TOOL:
+
+HTML:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Blog Creator</title>
+    <link rel="stylesheet" href="styles_1.css">
+</head>
+<body>
+    <header>
+        <h1>Blog Creator</h1>
+    </header>
+    <main>
+        <div class="drag-drop">
+            <div class="drop-area">
+                <p>Drag and drop text, images, and videos here.</p>
+            </div>
+            <div class="toolbox">
+                <button class="tool">Text</button>
+                <button class="tool">Image</button>
+                <button class="tool">Video</button>
+            </div>
+        </div>
+        <div class="blog-preview">
+            <h2>Your Blog Preview</h2>
+            <div class="blog-content">
+                <!-- Content added by user appears here -->
+            </div>
+        </div>
+    </main>
+    <footer>
+        <button id="publish-btn">Publish Blog</button>
+    </footer>
+    <script src="script_1.js"></script>
+</body>
+</html>
+
+CSS:
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f6f8fa;
+}
+
+header {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.drag-drop {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.drop-area {
+    border: 2px dashed #ccc;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+.toolbox {
+    display: flex;
+    gap: 1rem;
+}
+
+.tool {
+    padding: 0.5rem 1rem;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tool:hover {
+    background-color: #0056b3;
+}
+
+.blog-preview {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.blog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-element {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.content-element img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.content-element iframe {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    border: none;
+    border-radius: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+#publish-btn {
+    padding: 0.5rem 1rem;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#publish-btn:hover {
+    background-color: #0056b3;
+}
+
+JAVASCRIPT:
+const dropArea = document.getElementById('dropArea');
+const blogContent = document.getElementById('blogContent');
+const tools = document.querySelectorAll('.tool');
+
+tools.forEach(tool => {
+    tool.addEventListener('click', () => {
+        const toolType = tool.getAttribute('data-type');
+        const contentElement = createContentElement(toolType);
+        blogContent.appendChild(contentElement);
+    });
+});
+
+function createContentElement(type) {
+    const element = document.createElement(type === 'text' ? 'p' : 'div');
+    element.classList.add('content-element');
+
+    if (type === 'text') {
+        element.textContent = 'Sample ' + type;
+    } else if (type === 'image') {
+        // You can prompt the user for an image URL or upload logic
+        const imageUrl = prompt('Enter image URL:');
+        element.innerHTML = '<img src="mountains-55067_640.webp" alt="Mountain Scene">';
+    } else if (type === 'video') {
+        // You can prompt the user for a video URL or embed code
+        const videoUrl = prompt('Enter video URL or embed code:');
+        element.innerHTML = videoUrl; // Assuming the user provides an embeddable video URL
+    }
+
+    return element;
+}
